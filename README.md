@@ -66,7 +66,7 @@ dotenv 保存环境变量
 server/.env.development
 
 ```
-MONGO_URL=mongodb://localhost:27017/todo
+MONGO_URL=mongodb://localhost:27017/bookshelf
 PORT=3000
 JWT_SECRETS=jwt123
 ```
@@ -94,8 +94,9 @@ require('dotenv').config({ path: `.env.${NODE_ENV}` })
 注意事项:
 1. 不能同时有yarn.lock和package-lock.json
 2. 监听端口不能为固定端口，使用 process.env.PORT
+3. heroku使用的环境变量不是从你的项目获取的，要去官网或者命令行加
 
-在server下添加Procfile文件
+在server下添加Procfile文件, 内容就是生产环境下的script
 
 Procfile
 
@@ -114,5 +115,6 @@ heroku create cyh-bookshelf
 git subtree push --prefix server heroku main
 ```
 
+## client
 
 
