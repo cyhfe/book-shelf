@@ -96,9 +96,9 @@ require('dotenv').config({ path: `.env.${NODE_ENV}` })
 2. 监听端口不能为固定端口，使用 process.env.PORT
 3. heroku使用的环境变量不是从你的项目获取的，要去官网或者命令行加
 
-在server下添加Procfile文件, 内容就是生产环境下的script
+在server下添加Procfile文件, 内容就是驱动这个项目的script
 
-Procfile
+server/Procfile
 
 ```
 web: npm run start:prod
