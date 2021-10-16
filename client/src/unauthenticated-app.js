@@ -6,13 +6,16 @@ import { FormGroup, Input, Button, Spinner } from './components/lib';
 import { Modal, ModalOpenButton, ModalContents } from './components/modal';
 import { cloneElement } from 'react';
 import { useAuth } from './context/auth-context';
+import { useAsync } from './utils/hooks';
+import * as colors from './styles/colors';
 
 function LoginForm({ onSubmit, submitButton }) {
+  const { isLoading, isError, error, run } = useAsync();
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target.elements?.username?.value;
     const password = e.target.elements?.password?.value;
-    onSubmit({ username, password });
+    run(onSubmit({ username, password }));
   };
 
   return (
@@ -38,15 +41,18 @@ function LoginForm({ onSubmit, submitButton }) {
         <Input type="text" id="password" />
       </FormGroup>
       <div>
-        {cloneElement(submitButton, {
-          type: 'primary',
-        })}
-        <Spinner
-          css={css`
-            margin-left: 5px;
-          `}
-        />
+        {cloneElement(
+          submitButton,
+          {
+            type: 'primary',
+          },
+          ...(Array.isArray(submitButton.props.children)
+            ? submitButton.props.children
+            : [submitButton.props.children]),
+          isLoading ? <Spinner css={{ marginLeft: 5 }} /> : null
+        )}
       </div>
+      {isError ? <div css={{ color: colors.danger }}>{error}</div> : null}
     </form>
   );
 }

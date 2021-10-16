@@ -26,7 +26,7 @@ async function register(req, res) {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).send('缺少用户名或密码');
+    return res.status(400).json({ message: '缺少用户名或密码' });
   }
 
   let user;
@@ -34,7 +34,7 @@ async function register(req, res) {
     user = await User.findOne({ username });
     console.log(user);
     if (user) {
-      return res.status(400).send('用户名已存在');
+      return res.status(400).json({ message: '用户名已存在' });
     }
 
     user = await User.create({ username, password });
@@ -56,11 +56,11 @@ async function login(req, res) {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).send('用户名不存在');
+      return res.status(404).json({ message: '用户名不存在' });
     }
     const result = await user.checkPassword(password);
     if (!result) {
-      return res.status(400).send('密码错误');
+      return res.status(400).json({ message: '密码错误' });
     }
 
     if (!user.token) {

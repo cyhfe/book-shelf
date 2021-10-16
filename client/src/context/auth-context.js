@@ -70,7 +70,7 @@ export function AuthProvider(props) {
         }}
       >
         <p>Uh oh... There's a problem. Try refreshing the app.</p>
-        <pre>{error.message}</pre>
+        <pre>{error}</pre>
       </div>
     );
   }

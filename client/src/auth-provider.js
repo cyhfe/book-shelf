@@ -33,10 +33,10 @@ export async function client(endpoint, data) {
   return window
     .fetch(`${authURL}/${endpoint}`, config)
     .then(async (response) => {
-      if (!response.ok) {
-        return Promise.reject(response.data);
-      }
       const data = await response.json();
+      if (!response.ok) {
+        return Promise.reject(data.message);
+      }
       return data;
     });
 }
