@@ -80,3 +80,11 @@ const spin = keyframes`
 export const Spinner = styled(FaSpinner)`
   animation: ${spin} 1s linear infinite;
 `;
+
+export const BookListUL = styled.ul({
+  listStyle: 'none',
+  padding: '0',
+  display: 'grid',
+  gridTemplateRows: 'repeat(auto-fill, minmax(100px, 1fr))',
+  gridGap: '1em',
+});

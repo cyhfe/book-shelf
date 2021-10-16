@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-
+const cors = require('cors');
+const { login, logout, register, protect } = require('./auth');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -9,8 +10,16 @@ const MONGO_URL = process.env.MONGO_URL;
 
 const booksRouter = require('./resource/book/book.router');
 
+app.use(cors());
+app.use(express.json());
+
 app.use(express.static(path.resolve(__dirname, '../public')));
 
+app.post('/register', register);
+app.post('/login', login);
+app.post('/logout', logout);
+
+app.use('/api', protect);
 app.use('/api/books', booksRouter);
 
 app.get('*', (req, res) => {

@@ -1,12 +1,33 @@
 /** @jsxImportSource @emotion/react */
 
-import { Input } from './components/lib';
-import { FaSearch } from 'react-icons/fa';
+import { Input, Spinner, BookListUL } from './components/lib';
+import { BookRow } from './components/book-row';
+import { FaSearch, FaTimes } from 'react-icons/fa';
+import * as colors from './styles/colors';
+import client from './utils/api-client';
 
 import { css } from '@emotion/react';
 
 import ToolTip from '@reach/tooltip';
+import { useEffect, useState } from 'react';
+import { useAsync } from './utils/hooks';
+
 export default function DiscoverBooksScreen() {
+  const { data: books, run, error, isLoading, isError, isSuccess } = useAsync();
+  const [query, setQuery] = useState('');
+  const [queried, setQueried] = useState(false);
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const search = e.target.elements?.search?.value;
+    setQueried(true);
+    setQuery(search);
+  }
+
+  useEffect(() => {
+    if (!queried) return;
+    run(client(`books?query=${encodeURIComponent(query)}`));
+  }, [queried, query, run]);
+
   return (
     <div
       css={css`
@@ -16,7 +37,12 @@ export default function DiscoverBooksScreen() {
         margin: auto;
       `}
     >
-      <form>
+      <form
+        onSubmit={handleSearchSubmit}
+        css={css`
+          margin-bottom: 30px;
+        `}
+      >
         <Input
           placeholder="search books..."
           id="search"
@@ -35,11 +61,36 @@ export default function DiscoverBooksScreen() {
                 background: transparent;
               `}
             >
-              <FaSearch />
+              {isLoading ? (
+                <Spinner />
+              ) : isError ? (
+                <FaTimes css={{ color: colors.danger }} />
+              ) : (
+                <FaSearch />
+              )}
             </button>
           </label>
         </ToolTip>
       </form>
+      {isError ? (
+        <div css={{ color: colors.danger }}>
+          <p>There was an error:</p>
+          <pre>{error.message}</pre>
+        </div>
+      ) : null}
+      {isSuccess ? (
+        books?.length ? (
+          <BookListUL css={{ marginTop: 20 }}>
+            {books.map((book) => (
+              <li key={book._id}>
+                <BookRow key={book._id} book={book} />
+              </li>
+            ))}
+          </BookListUL>
+        ) : (
+          <p>No books found. Try another search.</p>
+        )
+      ) : null}
     </div>
   );
 }
