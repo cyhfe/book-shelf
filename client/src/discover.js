@@ -11,8 +11,10 @@ import { css } from '@emotion/react';
 import ToolTip from '@reach/tooltip';
 import { useEffect, useState } from 'react';
 import { useAsync } from './utils/hooks';
+import { useAuth } from './context/auth-context';
 
 export default function DiscoverBooksScreen() {
+  const { user } = useAuth();
   const { data: books, run, error, isLoading, isError, isSuccess } = useAsync();
   const [query, setQuery] = useState('');
   const [queried, setQueried] = useState(false);
@@ -25,8 +27,10 @@ export default function DiscoverBooksScreen() {
 
   useEffect(() => {
     if (!queried) return;
-    run(client(`books?query=${encodeURIComponent(query)}`));
-  }, [queried, query, run]);
+    run(
+      client(`books?query=${encodeURIComponent(query)}`, { token: user.token })
+    );
+  }, [queried, query, run, user.token]);
 
   return (
     <div

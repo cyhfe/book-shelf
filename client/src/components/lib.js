@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
 import { Dialog as ReachDialog } from '@reach/dialog';
@@ -80,6 +82,23 @@ const spin = keyframes`
 export const Spinner = styled(FaSpinner)`
   animation: ${spin} 1s linear infinite;
 `;
+
+export function FullPageSpinner() {
+  return (
+    <div
+      css={{
+        fontSize: '4em',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Spinner />
+    </div>
+  );
+}
 
 export const BookListUL = styled.ul({
   listStyle: 'none',

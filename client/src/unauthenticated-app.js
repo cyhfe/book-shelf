@@ -5,6 +5,7 @@ import Logo from './components/logo';
 import { FormGroup, Input, Button, Spinner } from './components/lib';
 import { Modal, ModalOpenButton, ModalContents } from './components/modal';
 import { cloneElement } from 'react';
+import { useAuth } from './context/auth-context';
 
 function LoginForm({ onSubmit, submitButton }) {
   const handleSubmit = (e) => {
@@ -51,14 +52,7 @@ function LoginForm({ onSubmit, submitButton }) {
 }
 
 export default function UnauthenticatedApp() {
-  const login = (formData) => {
-    console.log('login', formData);
-  };
-
-  const register = (formData) => {
-    console.log('register', formData);
-  };
-
+  const { login, register } = useAuth();
   return (
     <div
       css={css`
