@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './app';
+import DiscoverBooksScreen from './discover';
 
-import 'bootstrap/dist/css/bootstrap-reboot.css';
+import './bootstrap';
 
 const root = document.getElementById('root');
-ReactDOM.render(<App />, root);
+ReactDOM.render(<DiscoverBooksScreen />, root);

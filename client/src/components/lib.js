@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
 import { Dialog as ReachDialog } from '@reach/dialog';
 import * as mq from '../styles/media-queries';
-import '@reach/dialog/styles.css';
 import { FaSpinner } from 'react-icons/fa';
 
 export const FormGroup = styled.div`
