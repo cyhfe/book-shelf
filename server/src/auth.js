@@ -58,7 +58,7 @@ async function login(req, res) {
     if (!user) {
       return res.status(404).send('用户名不存在');
     }
-    const result = user.checkPassword(password);
+    const result = await user.checkPassword(password);
     if (!result) {
       return res.status(400).send('密码错误');
     }
@@ -109,6 +109,38 @@ async function logout(req, res) {
   }
 }
 
+async function me(req, res) {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(401).send();
+  }
+
+  let payload;
+  let user;
+
+  try {
+    payload = await verifyToken(token);
+    user = await User.findOne({
+      _id: payload.id,
+      token,
+    }).select('-password');
+
+    if (!user) {
+      return res.status(401).send();
+    }
+
+    return res.status(200).json({
+      id: user.id,
+      token: user.token,
+      username: user.username,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+}
+
 async function protect(req, res, next) {
   const token = getToken(req.headers.authorization);
   if (!token) {
@@ -140,4 +172,5 @@ module.exports = {
   login,
   logout,
   protect,
+  me,
 };
