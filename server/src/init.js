@@ -3,6 +3,10 @@ const BookModel = require('./resource/book/book.model');
 const mongoose = require('mongoose');
 const path = require('path');
 
+// 环境变量
+const NODE_ENV = process.env.NODE_ENV || 'development';
+require('dotenv').config({ path: `.env.${NODE_ENV}` });
+
 const MONGO_URL =
   process.env.MONGO_URL || 'mongodb://localhost:27017/bookshelf';
 
