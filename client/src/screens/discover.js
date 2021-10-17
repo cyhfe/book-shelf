@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
-import { Input, Spinner, BookListUL } from './components/lib';
-import { BookRow } from './components/book-row';
+import { Input, Spinner, BookListUL } from '../components/lib';
+import { BookRow } from '../components/book-row';
 import { FaSearch, FaTimes } from 'react-icons/fa';
-import * as colors from './styles/colors';
-import client from './utils/api-client';
+import * as colors from '../styles/colors';
+import client from '../utils/api-client';
 
 import { css } from '@emotion/react';
 
 import ToolTip from '@reach/tooltip';
 import { useEffect, useState } from 'react';
-import { useAsync } from './utils/hooks';
-import { useAuth } from './context/auth-context';
+import { useAsync } from '../utils/hooks';
+import { useAuth } from '../context/auth-context';
 
 export default function DiscoverBooksScreen() {
   const { user } = useAuth();

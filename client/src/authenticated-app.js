@@ -1,19 +1,23 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { Button } from './components/lib';
 import { useAuth } from './context/auth-context';
-import DiscoverBooksScreen from './discover';
+import DiscoverBooksScreen from './screens/discover';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import BookScreen from './screens/book';
+import NotFoundScreen from './screens/not-found';
 export default function AuthenticatedApp() {
   const { user, logout } = useAuth();
   return (
     <div>
       <div
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-        }}
+        css={css`
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-top: 20px;
+          margin-right: 20px;
+        `}
       >
         {user.username}
         <Button
@@ -24,7 +28,18 @@ export default function AuthenticatedApp() {
           Logout
         </Button>
       </div>
-      <DiscoverBooksScreen />
+      <AppRoutes />
     </div>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <Switch>
+      <Route path="/" exact render={() => <Redirect to="/discover" />} />
+      <Route path="/discover" component={DiscoverBooksScreen} />
+      <Route path="/book/:bookId" component={BookScreen} />
+      <Route path="*" component={NotFoundScreen} />
+    </Switch>
   );
 }
