@@ -78,7 +78,7 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
-  const token = getToken(req.headers.authorization);
+  const { token } = req.body;
   if (!token) {
     return res.status(401).send();
   }

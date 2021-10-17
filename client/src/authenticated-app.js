@@ -23,7 +23,7 @@ export default function AuthenticatedApp() {
         <Button
           variant="secondary"
           css={{ marginLeft: '10px' }}
-          onClick={logout}
+          onClick={() => logout(user.token)}
         >
           Logout
         </Button>

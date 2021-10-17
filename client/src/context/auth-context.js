@@ -43,10 +43,14 @@ export function AuthProvider(props) {
     (form) => auth.register(form).then((u) => setData(u)),
     [setData]
   );
-  const logout = React.useCallback(() => {
-    auth.logout();
-    setData(null);
-  }, [setData]);
+  const logout = React.useCallback(
+    (token) => {
+      auth.logout(token).then(() => {
+        setData(null);
+      });
+    },
+    [setData]
+  );
 
   const value = React.useMemo(
     () => ({ user, login, logout, register }),
