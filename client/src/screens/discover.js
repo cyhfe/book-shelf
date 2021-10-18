@@ -7,37 +7,43 @@ import * as colors from '../styles/colors';
 import client from '../utils/api-client';
 
 import { css } from '@emotion/react';
+import * as mq from '../styles/mq';
 
 import ToolTip from '@reach/tooltip';
 import { useEffect, useState } from 'react';
 import { useAsync } from '../utils/hooks';
 import { useAuth } from '../context/auth-context';
 
+import { useQuery } from 'react-query';
+
+function fetchBooks(query, token) {
+  return () => client(`books?query=${encodeURIComponent(query)}`, { token });
+}
+
 export default function DiscoverBooksScreen() {
   const { user } = useAuth();
-  const { data: books, run, error, isLoading, isError, isSuccess } = useAsync();
   const [query, setQuery] = useState('');
-  const [queried, setQueried] = useState(false);
+
+  const {
+    data: books,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery(['books', query], fetchBooks(query, user.token), {
+    staleTime: 1000 * 60,
+  });
+
   function handleSearchSubmit(e) {
     e.preventDefault();
     const search = e.target.elements?.search?.value;
-    setQueried(true);
     setQuery(search);
   }
-
-  useEffect(() => {
-    if (!queried) return;
-    run(
-      client(`books?query=${encodeURIComponent(query)}`, { token: user.token })
-    );
-  }, [queried, query, run, user.token]);
 
   return (
     <div
       css={css`
-        width: 90vw;
         max-width: 800px;
-        padding: 40px 0;
         margin: auto;
       `}
     >

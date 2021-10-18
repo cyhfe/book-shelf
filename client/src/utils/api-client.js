@@ -21,7 +21,7 @@ export default function client(
     .then(async (response) => {
       if (response.status === 401) {
         auth.logout();
-        window.location.assign(window.location);
+        // window.location.assign(window.location);
         return Promise.reject({ message: 'Please re-authenticate.' });
       }
       const data = await response.json();
