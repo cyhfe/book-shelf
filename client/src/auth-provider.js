@@ -23,7 +23,9 @@ function logout(token) {
       window.localStorage.removeItem(localStorageKey);
       window.location.href = '/';
     })
-    .catch(() => {});
+    .catch((err) => {
+      Promise.reject(err);
+    });
 }
 
 const authURL = process.env.REACT_APP_AUTH_URL;

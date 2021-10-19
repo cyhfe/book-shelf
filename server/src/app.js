@@ -21,7 +21,7 @@ app.post('/login', login);
 app.post('/logout', logout);
 
 app.use('/api', protect);
-app.use('/api/books', booksRouter);
+app.use('/api/book', booksRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));

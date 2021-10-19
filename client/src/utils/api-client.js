@@ -21,14 +21,13 @@ export default function client(
     .then(async (response) => {
       if (response.status === 401) {
         auth.logout();
-        // window.location.assign(window.location);
         return Promise.reject({ message: 'Please re-authenticate.' });
       }
-      const data = await response.json();
-      if (response.ok) {
-        return data;
-      } else {
-        return Promise.reject(data.message);
+
+      if (!response.ok) {
+        return Promise.reject(response.statusText);
       }
+      const data = await response.json();
+      return data;
     });
 }

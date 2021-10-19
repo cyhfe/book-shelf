@@ -10,14 +10,13 @@ import { css } from '@emotion/react';
 import * as mq from '../styles/mq';
 
 import ToolTip from '@reach/tooltip';
-import { useEffect, useState } from 'react';
-import { useAsync } from '../utils/hooks';
+import { useState } from 'react';
 import { useAuth } from '../context/auth-context';
-
+import { LoadingBooks } from '../utils/books';
 import { useQuery } from 'react-query';
 
 function fetchBooks(query, token) {
-  return () => client(`books?query=${encodeURIComponent(query)}`, { token });
+  return () => client(`book?query=${encodeURIComponent(query)}`, { token });
 }
 
 export default function DiscoverBooksScreen() {
@@ -82,6 +81,7 @@ export default function DiscoverBooksScreen() {
           </label>
         </ToolTip>
       </form>
+      {isLoading ? <LoadingBooks /> : null}
       {isError ? (
         <div css={{ color: colors.danger }}>
           <p>There was an error:</p>
