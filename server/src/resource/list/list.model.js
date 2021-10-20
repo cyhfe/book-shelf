@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 
 const listSchema = new mongoose.Schema({
   createdBy: {
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: 'User',
     required: true,
+    index: { unique: true },
   },
   books: [
     {
       book: {
-        type: mongoose.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Book',
         required: true,
       },
