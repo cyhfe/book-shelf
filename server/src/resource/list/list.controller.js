@@ -65,7 +65,7 @@ async function getList(req, res) {
     if (!list) {
       list = await List.create({
         createdBy: id,
-      }).populate('Books');
+      }).populate('books.book');
     }
 
     res.status(200).json(list);

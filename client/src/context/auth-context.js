@@ -12,7 +12,11 @@ async function getUser() {
   let user = null;
   const token = await auth.getToken();
   if (token) {
-    user = await client('me', { token });
+    try {
+      user = await client('me', { token });
+    } catch (error) {
+      auth.logout();
+    }
   }
 
   return user;

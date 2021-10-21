@@ -19,12 +19,15 @@ function register({ username, password }) {
 
 function logout(token) {
   return client('logout', { token })
-    .then(() => {
-      window.localStorage.removeItem(localStorageKey);
-      window.location.href = '/';
+    .then((res) => {
+      console.log(res);
     })
     .catch((err) => {
       Promise.reject(err);
+    })
+    .finally(() => {
+      window.localStorage.removeItem(localStorageKey);
+      window.location.href = '/';
     });
 }
 

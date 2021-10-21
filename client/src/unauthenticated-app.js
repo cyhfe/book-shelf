@@ -38,7 +38,7 @@ function LoginForm({ onSubmit, submitButton }) {
       </FormGroup>
       <FormGroup>
         <label htmlFor="password">password</label>
-        <Input type="text" id="password" />
+        <Input type="password" id="password" />
       </FormGroup>
       <div>
         {cloneElement(

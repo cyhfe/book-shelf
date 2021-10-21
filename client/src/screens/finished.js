@@ -16,7 +16,7 @@ export default function FinishedScreen() {
       noFilteredListItems={
         <p>
           Looks like you've got some reading to do! Check them out in your{' '}
-          <Link to="/list">reading list</Link> or{' '}
+          <Link to="/reading">reading list</Link> or{' '}
           <Link to="/discover">discover more</Link>.
         </p>
       }

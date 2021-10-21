@@ -26,9 +26,9 @@ export function useUpdateListItem() {
   const queryClient = useQueryClient();
   const client = useClient();
   return useMutation(
-    ({ id, status }) => {
+    ({ id, ...rest }) => {
       return client('list', {
-        data: { bookId: id, status },
+        data: { bookId: id, ...rest },
         method: 'PATCH',
       });
     },

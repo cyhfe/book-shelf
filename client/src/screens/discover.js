@@ -4,10 +4,8 @@ import { Input, Spinner, BookListUL } from '../components/lib';
 import { BookRow } from '../components/book-row';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import * as colors from '../styles/colors';
-import client from '../utils/api-client';
 
 import { css } from '@emotion/react';
-import * as mq from '../styles/mq';
 
 import ToolTip from '@reach/tooltip';
 import { useState } from 'react';
