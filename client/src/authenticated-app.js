@@ -8,6 +8,8 @@ import BookScreen from './screens/book';
 import NotFoundScreen from './screens/not-found';
 import * as colors from './styles/colors';
 import * as mq from './styles/mq';
+import FinishedScreen from './screens/finished';
+import ReadingListScreen from './screens/reading-list';
 export default function AuthenticatedApp() {
   const { user, logout } = useAuth();
   return (
@@ -34,7 +36,7 @@ export default function AuthenticatedApp() {
         css={{
           margin: '0 auto',
           padding: '4em 2em',
-          maxWidth: '840px',
+          maxWidth: '1200px',
           width: '100%',
           display: 'flex',
           gap: '30px',
@@ -59,6 +61,8 @@ function AppRoutes() {
     <Switch>
       <Route path="/" exact render={() => <Redirect to="/discover" />} />
       <Route path="/discover" component={DiscoverBooksScreen} />
+      <Route path="/finished" component={FinishedScreen} />
+      <Route path="/reading" component={ReadingListScreen} />
       <Route path="/book/:bookId" component={BookScreen} />
       <Route path="*" component={NotFoundScreen} />
     </Switch>
@@ -118,7 +122,7 @@ function Nav() {
       >
         <li>
           <NavLink to="/discover">Discover</NavLink>
-          <NavLink to="/list">Reading List</NavLink>
+          <NavLink to="/reading">Reading List</NavLink>
           <NavLink to="/finished">Finished Books</NavLink>
         </li>
       </ul>

@@ -1,6 +1,7 @@
 import bookPlaceholderSvg from '../assets/book-placeholder.svg';
-import { BookListUL } from '../components/lib';
-import { BookRow } from '../components/book-row';
+import { useQuery } from 'react-query';
+import { useClient } from './api-client';
+
 const loadingBook = {
   title: 'Loading...',
   author: 'loading...',
@@ -10,25 +11,21 @@ const loadingBook = {
   loadingBook: true,
 };
 
-const loadingBooks = Array.from({ length: 10 }, (v, index) => ({
-  id: `loading-book-${index}`,
+export const loadingBooks = Array.from({ length: 10 }, (v, index) => ({
+  _id: `loading-book-${index}`,
   ...loadingBook,
 }));
 
-export function LoadingBooks() {
-  return (
-    <BookListUL css={{ marginTop: 20 }}>
-      {loadingBooks.map((book) => (
-        <li key={book.id}>
-          <BookRow key={book.id} book={book} />
-        </li>
-      ))}
-    </BookListUL>
+export function useBooksSearch(query) {
+  const client = useClient();
+  const result = useQuery(['books', query], () =>
+    client(`book?query=${encodeURIComponent(query)}`)
   );
+  return { ...result, data: result.data ?? loadingBooks };
 }
 
-// export function LoadingBook() {
-//   return (
-
-//   );
-// }
+export function useBook(id) {
+  const client = useClient();
+  const result = useQuery(['book', id], () => client(`book/${id}`));
+  return { ...result, data: result.data ?? loadingBook };
+}

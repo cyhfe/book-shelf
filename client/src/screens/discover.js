@@ -12,26 +12,17 @@ import * as mq from '../styles/mq';
 import ToolTip from '@reach/tooltip';
 import { useState } from 'react';
 import { useAuth } from '../context/auth-context';
-import { LoadingBooks } from '../utils/books';
-import { useQuery } from 'react-query';
-
-function fetchBooks(query, token) {
-  return () => client(`book?query=${encodeURIComponent(query)}`, { token });
-}
+import { useBooksSearch } from '../utils/books';
 
 export default function DiscoverBooksScreen() {
   const { user } = useAuth();
   const [query, setQuery] = useState('');
-
   const {
     data: books,
     error,
     isLoading,
     isError,
-    isSuccess,
-  } = useQuery(['books', query], fetchBooks(query, user.token), {
-    staleTime: 1000 * 60,
-  });
+  } = useBooksSearch(query, user.token);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -42,7 +33,7 @@ export default function DiscoverBooksScreen() {
   return (
     <div
       css={css`
-        max-width: 800px;
+        /* max-width: 800px; */
         margin: auto;
       `}
     >
@@ -81,26 +72,23 @@ export default function DiscoverBooksScreen() {
           </label>
         </ToolTip>
       </form>
-      {isLoading ? <LoadingBooks /> : null}
       {isError ? (
         <div css={{ color: colors.danger }}>
           <p>There was an error:</p>
           <pre>{error.message}</pre>
         </div>
       ) : null}
-      {isSuccess ? (
-        books?.length ? (
-          <BookListUL css={{ marginTop: 20 }}>
-            {books.map((book) => (
-              <li key={book._id}>
-                <BookRow key={book._id} book={book} />
-              </li>
-            ))}
-          </BookListUL>
-        ) : (
-          <p>No books found. Try another search.</p>
-        )
-      ) : null}
+      {books.length ? (
+        <BookListUL css={{ marginTop: 20 }}>
+          {books.map((book) => (
+            <li key={book._id}>
+              <BookRow key={book._id} book={book} isLoading={isLoading} />
+            </li>
+          ))}
+        </BookListUL>
+      ) : (
+        <p>No books found. Try another search.</p>
+      )}
     </div>
   );
 }

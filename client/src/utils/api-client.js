@@ -1,5 +1,6 @@
 import * as auth from '../auth-provider';
-
+import * as React from 'react';
+import { useAuth } from '../context/auth-context';
 const API_URL = process.env.REACT_APP_API_URL;
 
 export default function client(
@@ -30,4 +31,13 @@ export default function client(
       const data = await response.json();
       return data;
     });
+}
+
+export function useClient() {
+  const { user } = useAuth();
+  const token = user?.token;
+  return React.useCallback(
+    (endpoint, config) => client(endpoint, { ...config, token }),
+    [token]
+  );
 }

@@ -58,12 +58,14 @@ async function removeFromListItem(req, res) {
 async function getList(req, res) {
   const { id } = req.user;
   try {
-    const list = await List.findOne({
+    let list = await List.findOne({
       createdBy: id,
-    });
+    }).populate('books.book');
 
     if (!list) {
-      res.status(404).send();
+      list = await List.create({
+        createdBy: id,
+      }).populate('Books');
     }
 
     res.status(200).json(list);
@@ -91,7 +93,7 @@ async function modifyListItem(req, res) {
     );
 
     if (!list) {
-      res.status(404).send();
+      return res.status(404).send();
     }
 
     res.status(200).json(list);
